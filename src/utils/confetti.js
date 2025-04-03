@@ -26,7 +26,7 @@ function createConfettiPiece() {
   }, 2500);
 }
 
-function launchConfetti(count = 100) {
+export function launchConfetti(count = 100) {
   for (let i = 0; i < count; i++) {
     setTimeout(createConfettiPiece, i * 20);
   }

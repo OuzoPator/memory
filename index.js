@@ -61,8 +61,26 @@ function mixCards(cardsArray) {
   return cardPairs;
 }
 
+let timerIntervall;
+let secondsElapsed = 0;
+
+function startTimer() {
+  clearInterval(timerIntervall);
+  secondsElapsed = 0;
+  document.querySelector(
+    "#timer"
+  ).textContent = `Zeit: ${secondsElapsed} Sekunden!`;
+  timerIntervall = setInterval(() => {
+    secondsElapsed++;
+    document.querySelector(
+      "#timer"
+    ).textContent = `Zeit: ${secondsElapsed} Sekunden!`;
+  }, 1000);
+}
+
 // Spielfeld erstellen
 function playground(numberPairs = 8) {
+  startTimer();
   const allCards = createCards(numberPairs);
   const mixedCards = mixCards(allCards);
   const spielfeld = document.querySelector("#spielfeld");
@@ -106,6 +124,17 @@ function playground(numberPairs = 8) {
     if (card1.dataset.id === card2.dataset.id) {
       card1.classList.add("gefunden");
       card2.classList.add("gefunden");
+
+      // Prüfen, ob alle Karten gefunden wurden
+      const alleGefunden =
+        document.querySelectorAll(".gefunden").length === mixedCards.length;
+      if (alleGefunden) {
+        setTimeout(() => {
+          alert("Glückwunsch! Du hast das Memory-Spiel gewonnen! 🎉");
+        }, 300);
+
+        clearInterval(timerIntervall);
+      }
     } else {
       card1.textContent = "❓";
       card2.textContent = "❓";
